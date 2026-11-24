@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#0a0e14">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23e5484d'/%3E%3Ctext x='32' y='45' text-anchor='middle' font-family='Arial,sans-serif' font-size='42' font-weight='700' fill='%23ffffff'%3EH%3C/text%3E%3C/svg%3E">
+    <title>Health Care</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+    <link rel="stylesheet" href="/static/styles.css">
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <div class="brand"><span class="brand-mark">H</span><span>Health Care</span></div>
+        <p class="sidebar-label">Pipeline</p>
+        <nav class="steps" aria-label="Pipeline stages">
+          <span class="active"><em>1</em> Sources</span>
+          <span><em>2</em> Requirements</span>
+          <span><em>3</em> Quality</span>
+          <span><em>4</em> SDLC</span>
+        </nav>
+      </aside>
+
+      <div class="content">
+        <header class="topbar">
+          <div class="topbar-copy">
+            <p>Evidence-grounded requirements and SDLC advisory</p>
+            <div class="status-pill"><span class="status-dot"></span>HealthCare Requirements Workspace</div>
+          </div>
+          <a id="exportLink" class="icon-action is-hidden" title="Export project JSON" download>Export JSON</a>
+        </header>
+
+        <main>
+          <section class="workspace" aria-labelledby="workspace-title">
+            <div class="section-heading">
+              <div>
+                <p class="eyebrow"></p>
+                <h1 id="workspace-title">Healthcare Requirements & SDLC Assistant</h1>
+              </div>
+              <span id="projectState" class="state">No project loaded</span>
+            </div>
+
+            <form id="interviewStartForm" class="intake">
+              <div class="interview-heading">
+                <p class="eyebrow"></p>
+                <p></p>
+              </div>
+
+              <div class="starter-grid">
+                <label>
+                  <span>Healthcare functionality</span>
+                  <input id="functionality" placeholder="e.g. Patient Appointment Scheduling" required minlength="3">
+                </label>
+                <label>
+                  <span>Clinical objective</span>
+                  <textarea id="businessObjective" placeholder="What patient journey or clinical problem should this support, and why does it matter?" required></textarea>
+                </label>
+                <label>
+                  <span>Patients, clinicians, and roles</span>
+                  <textarea id="usersRoles" placeholder="Who uses the system, and what must each stakeholder role be able to do?" required></textarea>
+                </label>
+                <label>
+                  <span>Project constraints</span>
+                  <textarea id="projectConstraints" placeholder="Known deadlines, budget, technical dependencies, or delivery constraints (optional)"></textarea>
+                </label>
+                <label>
+                  <span>Project limitations</span>
+                  <textarea id="projectLimitations" placeholder="Known scope exclusions, operational limits, or assumptions to validate (optional)"></textarea>
+                </label>
+              </div>
+
+              <label class="upload-label">
+                <span>Supporting documents (optional)</span>
+                <input id="files" type="file" accept=".txt,.md,.csv,.pdf,.docx" multiple>
+              </label>
+
+              <button type="submit">Start interview</button>
+            </form>
+
+            <section id="interviewSession" class="interview-session is-hidden" aria-live="polite">
+              <div class="interview-meta">
+                <span id="questionProgress" class="state"></span>
+                <span id="answerCount" class="muted"></span>
+              </div>
+              <p id="questionTopic" class="eyebrow"></p>
+              <h2 id="interviewQuestion"></h2>
+              <textarea id="interviewAnswer" placeholder="Write the information you know. Specific rules, limits, conditions, and outcomes are especially useful."></textarea>
+              <div class="interview-actions">
+                <button id="continueInterview" type="button">Save and continue</button>
+                <button id="skipInterviewQuestion" class="quiet-button" type="button">Skip for now</button>
+              </div>
+            </section>
+
+            <section id="interviewComplete" class="interview-complete is-hidden">
+              <p class="eyebrow">Interview ready</p>
+              <h2>Turn the conversation into evidence-grounded requirements</h2>
+              <p id="interviewSummary" class="muted"></p>
+              <button id="createProject" type="button">Create project</button>
+            </section>
+          </section>
+
+          <section id="documentsPanel" class="panel is-hidden" aria-labelledby="documents-title">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">RAG knowledge base</p>
+                <h2 id="documents-title">Indexed source documents</h2>
+              </div>
+              <button id="generateButton" type="button">Generate requirements</button>
+            </div>
+            <div id="ragSummary" class="rag-summary" aria-label="RAG index status"></div>
+            <div id="documentList" class="document-list"></div>
+            <div class="retrieval-toolbar">
+              <label>
+                <span>Search indexed evidence</span>
+                <input id="retrievalQuery" placeholder="Ask the vector index about a requirement or control">
+              </label>
+              <button id="retrieveButton" type="button">Retrieve</button>
+              <span id="retrievalCount" class="count"></span>
+            </div>
+            <div id="retrievalResults" class="retrieval-results"></div>
+          </section>
+
+          <section id="requirementsPanel" class="panel is-hidden" aria-labelledby="requirements-title">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Human review required</p>
+                <h2 id="requirements-title">Generated requirements</h2>
+              </div>
+              <span id="requirementCount" class="count"></span>
+            </div>
+            <div id="agent1Summary" class="agent-run is-hidden" aria-live="polite"></div>
+            <div id="agent1Gap" class="agent-run is-hidden" aria-live="polite"></div>
+            <div id="agent1Activities" class="issues-list"></div>
+            <div id="requirementsList" class="requirements-list"></div>
+          </section>
+
+          <section id="qualityPanel" class="panel is-hidden" aria-labelledby="quality-title">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Quality analysis</p>
+                <h2 id="quality-title">Review queue</h2>
+              </div>
+              <span id="issueCount" class="count"></span>
+            </div>
+            <div id="issuesList" class="issues-list"></div>
+          </section>
+
+          <section id="sdlcPanel" class="panel is-hidden" aria-labelledby="sdlc-title">
+            <div class="panel-title">
+              <div>
+                <p class="eyebrow">Architecture advisory</p>
+                <h2 id="sdlc-title">SDLC analysis</h2>
+              </div>
+              <button id="sdlcButton" type="button">Run SDLC analysis</button>
+            </div>
+            <div id="agent2Summary" class="agent-run is-hidden" aria-live="polite"></div>
+            <div id="sdlcResult"></div>
+          </section>
+        </main>
+      </div>
+    </div>
+
+    <div id="toast" role="status" aria-live="polite"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

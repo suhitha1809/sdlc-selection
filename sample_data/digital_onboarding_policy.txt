@@ -1,0 +1,11 @@
+Patient Appointment Scheduling Policy - Example Source
+
+The appointment scheduling service shall verify the patient's identity before creating or updating a clinical appointment.
+The service shall confirm eligibility for the requested clinic, specialty, or follow-up visit using the approved scheduling rules and clinician availability data.
+The system must record the scheduling decision, the clinician assigned, the originating staff member or portal user, and the timestamp in an auditable event log.
+Patient health information collected during scheduling must be restricted to authorised clinical roles, protected by role-based access control, and retained according to the approved retention policy.
+The portal should notify patients when an appointment is booked, rescheduled, or cancelled and should provide confirmation details, reminder timing, and instructions for rescheduling or cancellation.
+The system shall prevent double booking for the same clinician, room, and time slot while preserving continuity for high-priority follow-up visits.
+Failed or incomplete appointment requests must be routed to a trained clinic administrator, scheduler, or triage coordinator for review and manual resolution.
+The service should provide an appointment availability target approved by the clinical operations owner before production release and should support escalation when clinic capacity is exceeded.
+The scheduling workflow must preserve patient confidentiality, support accessibility requirements, and produce a traceable audit record for every approved, changed, or cancelled booking.
